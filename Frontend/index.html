@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CyberShield — Signaler une arnaque</title>
+  <link rel="stylesheet" href="style.css"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <header>
+    <div class="logo-badge">CS</div>
+    <h1>CyberShield</h1>
+    <span class="header-info">Pointe-Noire · Brigade Cybercriminalité</span>
+  </header>
+
+  <section class="hero">
+    <div class="hero-tag">🔒 Signalement sécurisé</div>
+    <h2>Vous avez été victime<br>d'une <span class="rouge">cyber-arnaque</span> ?</h2>
+    <p>Déposez votre plainte en toute sécurité. Un enquêteur analysera votre dossier.</p>
+  </section>
+
+  <main>
+    <div class="legende">
+      <div class="legende-item">
+        <div class="point rouge-bg"></div>
+        Nouveau dossier
+      </div>
+      <div class="legende-item">
+        <div class="point bleu-bg"></div>
+        En cours d'analyse
+      </div>
+      <div class="legende-item">
+        <div class="point vert-bg"></div>
+        Transmis à la justice
+      </div>
+    </div>
+
+    <form id="formulaire-plainte">
+     <div class="carte">
+        <div class="carte-titre">1 — Type d'arnaque</div>
+
+        <div class="champ">
+          <label>Quelle est la nature de l'arnaque ? <span class="requis">*</span></label>
+
+          <div class="types-arnaque">
+
+            <div class="type-badge phishing">
+              <input type="radio" name="type" id="phishing" value="phishing" required/>
+              <label for="phishing">🎣 Phishing</label>
+            </div>
+
+            <div class="type-badge fraude">
+              <input type="radio" name="type" id="fraude" value="fraude"/>
+              <label for="fraude">💸 Fraude financière</label>
+            </div>
+
+            <div class="type-badge usurpation">
+              <input type="radio" name="type" id="usurpation" value="usurpation"/>
+              <label for="usurpation">👤 Usurpation d'identité</label>
+            </div>
+
+            <div class="type-badge mobile-money">
+              <input type="radio" name="type" id="mobile-money" value="mobile_money"/>
+              <label for="mobile-money">📱 Mobile Money</label>
+            </div>
+
+            <div class="type-badge autre">
+              <input type="radio" name="type" id="autre" value="autre"/>
+              <label for="autre">❓ Autre</label>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="carte">
+        <div class="carte-titre">2 — Description de l'incident</div>
+
+        <div class="champ">
+          <label for="description">Décrivez ce qui s'est passé <span class="requis">*</span></label>
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Ex : J'ai reçu un message WhatsApp d'un inconnu me disant que j'avais gagné un prix MTN. Il m'a demandé d'envoyer 5 000 FCFA pour débloquer mon gain..."
+            required
+          ></textarea>
+          <p class="aide">→ Précisez la date, l'heure et la plateforme utilisée</p>
+        </div>
+
+        <div class="grille-2">
+
+          <div class="champ">
+            <label for="quartier">Quartier / Zone <span class="requis">*</span></label>
+            <select id="quartier" name="quartier" required>
+              <option value="">-- Choisir --</option>
+              <option>Mpaka</option>
+              <option>Lumumba</option>
+              <option>Tié-Tié</option>
+              <option>Mongo-Kamba</option>
+              <option>Fond Tié-Tié</option>
+              <option>Mvou-Mvou</option>
+              <option>Centre-ville</option>
+              <option>Vindoulou</option>
+              <option>Autre</option>
+            </select>
+          </div>
+
+          <div class="champ">
+            <label for="plateforme">Plateforme utilisée</label>
+            <select id="plateforme" name="plateforme">
+              <option value="">-- Choisir --</option>
+              <option>WhatsApp</option>
+              <option>Facebook</option>
+              <option>Instagram</option>
+              <option>SMS</option>
+              <option>Email</option>
+              <option>Mobile Money (MTN/Airtel)</option>
+              <option>Site web</option>
+              <option>Autre</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="carte">
+        <div class="carte-titre">3 — Indices sur l'escroc</div>
+
+        <div class="grille-2">
+
+          <div class="champ">
+            <label for="numero">Numéro de téléphone de l'escroc</label>
+            <input type="tel" id="numero" name="numero_escroc" placeholder="Ex : 06 XXX XX XX"/>
+            <p class="aide">→ Très important pour retrouver d'autres victimes</p>
+          </div>
+
+          <div class="champ">
+            <label for="compte">Compte / Profil suspect</label>
+            <input type="text" id="compte" name="compte_escroc" placeholder="Ex : nom du profil Facebook"/>
+          </div>
+
+        </div>
+
+        <div class="champ">
+          <label for="lien">Lien du faux site ou de l'arnaque</label>
+          <input type="text" id="lien" name="lien_suspect" placeholder="Ex : http://mtn-prix-pointe-noire.com"/>
+          <p class="aide">→ Copiez-collez le lien, ne cliquez pas dessus</p>
+        </div>
+
+      </div>
+
+      <div class="carte">
+        <div class="carte-titre">4 — Preuves numériques</div>
+
+        <div class="champ">
+          <label>Captures d'écran (JPEG ou PNG uniquement)</label>
+
+          <div class="zone-upload" id="zone-upload">
+            <!-- Input caché derrière la zone -->
+            <input type="file" id="fichiers" name="preuves" accept=".jpg,.jpeg,.png" multiple/>
+            <p class="upload-icone">📎</p>
+            <p><strong>Glissez vos captures ici</strong></p>
+            <p class="aide">ou cliquez pour choisir · JPEG / PNG · Max 5 fichiers</p>
+            <!-- Les aperçus apparaissent ici -->
+            <div id="apercu-fichiers"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="carte">
+        <div class="carte-titre">5 — Vos informations (optionnel)</div>
+
+        <label class="case-anonymat">
+          <input type="checkbox" id="anonymat" name="anonyme" checked/>
+          <div>
+            <strong>Déposer anonymement</strong>
+            <p>Votre identité ne sera pas enregistrée. Vous recevrez quand même un code de suivi.</p>
+          </div>
+        </label>
+
+        <div id="champs-identite">
+          <div class="grille-2">
+            <div class="champ">
+              <label for="nom">Nom complet</label>
+              <input type="text" id="nom" name="nom" placeholder="Votre nom"/>
+            </div>
+            <div class="champ">
+              <label for="tel-victime">Téléphone</label>
+              <input type="tel" id="tel-victime" name="telephone" placeholder="06 XXX XX XX"/>
+            </div>
+          </div>
+          <div class="champ">
+            <label for="email">Email (pour recevoir les mises à jour)</label>
+            <input type="email" id="email" name="email" placeholder="votre@email.com"/>
+          </div>
+        </div>
+
+      </div>
+
+      <button type="submit" class="btn-soumettre">
+        🛡️ Soumettre le signalement
+      </button>
+
+    </form>
+  </main>
+
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <div class="modal-icone">✅</div>
+      <h3>Signalement enregistré !</h3>
+      <p>Votre dossier a été transmis à la brigade de cybercriminalité de Pointe-Noire.</p>
+      <p>Conservez ce code pour suivre l'avancement :</p>
+      <!-- Le code s'affiche ici via JavaScript -->
+      <div class="code-suivi" id="code-suivi">---</div>
+      <p class="aide">Notez ce code ou faites une capture d'écran.</p>
+      <button class="btn-fermer" onclick="fermerModal()">Fermer</button>
+    </div>
+  </div>
+
+  <script>
+
+    document.getElementById('fichiers').addEventListener('change', function () {
+      var apercu = document.getElementById('apercu-fichiers');
+      apercu.innerHTML = ''; 
+
+      var fichiers = Array.from(this.files).slice(0, 5);
+
+      fichiers.forEach(function (fichier) {
+        var url = URL.createObjectURL(fichier);
+        var img = document.createElement('img');
+        img.src = url;
+        img.className = 'apercu-img';
+        apercu.appendChild(img);
+      });
+    });
+    document.getElementById('anonymat').addEventListener('change', function () {
+      var champsIdentite = document.getElementById('champs-identite');
+      if (this.checked) {
+        champsIdentite.style.display = 'none'; 
+      } else {
+        champsIdentite.style.display = 'block'; 
+      }
+    });
+
+    function genererCode() {
+      var caracteres = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      var code = 'CS-';
+      for (var i = 0; i < 8; i++) {
+        code += caracteres[Math.floor(Math.random() * caracteres.length)];
+      }
+      return code;
+    }
+
+    document.getElementById('formulaire-plainte').addEventListener('submit', function (e) {
+      e.preventDefault(); // empêche le rechargement de la page
+
+      var code = genererCode();
+      document.getElementById('code-suivi').textContent = code;
+
+      document.getElementById('overlay').classList.add('active');
+
+    function fermerModal() {
+      document.getElementById('overlay').classList.remove('active');
+      document.getElementById('formulaire-plainte').reset();
+      document.getElementById('apercu-fichiers').innerHTML = '';
+      document.getElementById('champs-identite').style.display = 'none';
+    }
+
+  </script>
+
+</body>
+</html>
