@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberShield - Dashboard Enquêteurs</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <header>
+    <h1>🛡️ CyberShield</h1>
+    <span>Espace Enquêteurs</span>
+  </header>
+
+  <main>
+
+    <div class="stats">
+      <div class="stat rouge">
+        <h3 id="count-nouveau">0</h3>
+        <p>Nouveaux</p>
+      </div>
+      <div class="stat bleu">
+        <h3 id="count-encours">0</h3>
+        <p>En cours</p>
+      </div>
+      <div class="stat vert">
+        <h3 id="count-cloture">0</h3>
+        <p>Clôturés</p>
+      </div>
+    </div>
+
+    <input type="text" id="recherche" placeholder="Rechercher par numéro, quartier..." oninput="rechercher()">
+
+    <p id="chargement">Chargement des dossiers...</p>
+    <p id="erreur" style="color:red; display:none">Erreur de connexion au serveur.</p>
+
+    <div id="liste"></div>
+
+  </main>
+
+  <script>
+    var tousLesDossiers = [];
+
+    function chargerDossiers() {
+      fetch('http://localhost:3000/api/signalements')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        tousLesDossiers = data;
+        document.getElementById('chargement').style.display = 'none';
+        afficherDossiers(data);
+        mettreAJourStats(data);
+      })
+      .catch(function() {
+        document.getElementById('chargement').style.display = 'none';
+        document.getElementById('erreur').style.display = 'block';
+      });
+    }
+
+    function mettreAJourStats(dossiers) {
+      var nouveau = dossiers.filter(function(d) { return d.statut === 'nouveau'; }).length;
+      var encours = dossiers.filter(function(d) { return d.statut === 'encours'; }).length;
+      var cloture = dossiers.filter(function(d) { return d.statut === 'cloture'; }).length;
+      document.getElementById('count-nouveau').textContent = nouveau;
+      document.getElementById('count-encours').textContent = encours;
+      document.getElementById('count-cloture').textContent = cloture;
+    }
+
+    function afficherDossiers(dossiers) {
+      var liste = document.getElementById('liste');
+      liste.innerHTML = '';
+
+      if (dossiers.length === 0) {
+        liste.innerHTML = '<p>Aucun dossier trouvé.</p>';
+        return;
+      }
+
+      dossiers.forEach(function(d) {
+        var couleurStatut = d.statut === 'nouveau' ? 'rouge' : d.statut === 'encours' ? 'bleu' : 'vert';
+        var texteStatut = d.statut === 'nouveau' ? '🔴 Nouveau' : d.statut === 'encours' ? '🔵 En cours' : '🟢 Clôturé';
+
+        var carte = document.createElement('div');
+        carte.className = 'dossier';
+        carte.dataset.info = d.quartier + ' ' + d.type_arnaque + ' ' + d.description;
+
+        carte.innerHTML =
+          '<div class="dossier-header">' +
+            '<span class="badge ' + couleurStatut + '">' + texteStatut + '</span>' +
+            '<span class="badge orange">' + d.type_arnaque + '</span>' +
+          '</div>' +
+          '<h3>' + d.description.substring(0, 60) + '...</h3>' +
+          '<div class="meta">📍 ' + d.quartier + ' &nbsp; 📅 ' + new Date(d.date_depot).toLocaleDateString() + '</div>' +
+          '<select onchange="changerStatut(this, ' + d.id_signalement + ')">' +
+            '<option value="nouveau"' + (d.statut === 'nouveau' ? ' selected' : '') + '>🔴 Nouveau</option>' +
+            '<option value="encours"' + (d.statut === 'encours' ? ' selected' : '') + '>🔵 En cours</option>' +
+            '<option value="cloture"' + (d.statut === 'cloture' ? ' selected' : '') + '>🟢 Clôturé</option>' +
+          '</select>';
+
+        liste.appendChild(carte);
+      });
+    }
+
+    function rechercher() {
+      var texte = document.getElementById('recherche').value.toLowerCase();
+      var filtres = tousLesDossiers.filter(function(d) {
+        return (d.quartier + ' ' + d.type_arnaque + ' ' + d.description).toLowerCase().includes(texte);
+      });
+      afficherDossiers(filtres);
+    }
+
+    function changerStatut(select, id) {
+      fetch('http://localhost:3000/api/signalements/' + id + '/statut', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ statut: select.value })
+      })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function() {
+        chargerDossiers();
+      });
+    }
+
+    chargerDossiers();
+  </script>
+
+</body>
+</html>
