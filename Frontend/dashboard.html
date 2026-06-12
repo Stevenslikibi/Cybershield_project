@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CyberShield — Dashboard Enquêteurs</title>
+  <link rel="stylesheet" href="dashboard.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <header>
+    <div class="header-gauche">
+      <div class="logo-badge">CS</div>
+      <div>
+        <h1>CyberShield</h1>
+        <span class="sous-titre">Espace Enquêteurs — Brigade Cybercriminalité</span>
+      </div>
+    </div>
+    <div class="header-droite">
+      <span class="enqueteur-nom">👤 Insp. Moukala</span>
+      <span class="workspace-badge">Cellule Mobile Money</span>
+      <button class="btn-deconnexion">Déconnexion</button>
+    </div>
+  </header>
+
+  <div class="conteneur">
+
+    <div class="barre-recherche">
+      <input
+        type="text"
+        id="recherche"
+        placeholder="🔍 Rechercher par numéro, lien, quartier..."
+        oninput="filtrerDossiers()"
+      />
+    </div>
+
+    <div class="stats">
+
+      <div class="stat-carte rouge-bg">
+        <div class="stat-nombre" id="count-nouveau">4</div>
+        <div class="stat-label">Nouveaux dossiers</div>
+      </div>
+
+      <div class="stat-carte bleu-bg">
+        <div class="stat-nombre" id="count-encours">5</div>
+        <div class="stat-label">En cours d'analyse</div>
+      </div>
+
+      <div class="stat-carte vert-bg">
+        <div class="stat-nombre" id="count-cloture">3</div>
+        <div class="stat-label">Clôturés / Transmis</div>
+      </div>
+
+      <div class="stat-carte gris-bg">
+        <div class="stat-nombre">12</div>
+        <div class="stat-label">Total dossiers</div>
+      </div>
+
+    </div>
+
+    <div class="filtres">
+      <button class="filtre-btn actif" onclick="filtrerStatut('tous', this)">Tous</button>
+      <button class="filtre-btn rouge" onclick="filtrerStatut('nouveau', this)">🔴 Nouveaux</button>
+      <button class="filtre-btn bleu"  onclick="filtrerStatut('encours', this)">🔵 En cours</button>
+      <button class="filtre-btn vert"  onclick="filtrerStatut('cloture', this)">🟢 Clôturés</button>
+    </div>
+
+    <div class="titre-section">
+      <h2>Dossiers reçus</h2>
+      <span id="nb-resultats">12 dossiers</span>
+    </div>
+
+    <div class="liste-dossiers" id="liste-dossiers">
+
+      <div class="dossier-carte" data-statut="nouveau" data-texte="06 641 23 45 mpaka mobile money mtn">
+        <div class="dossier-entete">
+          <span class="badge-statut rouge">🔴 Nouveau</span>
+          <span class="badge-type orange">📱 Mobile Money</span>
+          <span class="dossier-date">05/06/2026</span>
+          <button class="btn-drapeau" onclick="toggleDrapeau(this)" title="Marquer urgent">🚩</button>
+        </div>
+        <h3 class="dossier-titre">Arnaque MTN Mobile Money — gain fictif</h3>
+        <p class="dossier-desc">Victime contactée par WhatsApp, on lui annonce un gain de 150 000 FCFA à débloquer contre un virement de 5 000 FCFA.</p>
+        <div class="dossier-meta">
+          <span>📍 Mpaka</span>
+          <span>📱 WhatsApp</span>
+          <span>📞 06 641 23 45</span>
+        </div>
+        <div class="dossier-actions">
+          <button class="btn-voir" onclick="ouvrirDossier(1)">Voir le dossier →</button>
+          <select class="select-statut" onchange="changerStatut(this, 1)">
+            <option value="nouveau" selected>🔴 Nouveau</option>
+            <option value="encours">🔵 En cours</option>
+            <option value="cloture">🟢 Clôturé</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dossier-carte" data-statut="nouveau" data-texte="facebook tié-tié faux profil telephone usurpation">
+        <div class="dossier-entete">
+          <span class="badge-statut rouge">🔴 Nouveau</span>
+          <span class="badge-type gris">👤 Usurpation</span>
+          <span class="dossier-date">05/06/2026</span>
+          <button class="btn-drapeau" onclick="toggleDrapeau(this)" title="Marquer urgent">🚩</button>
+        </div>
+        <h3 class="dossier-titre">Faux profil Facebook vendant des téléphones — Tié-Tié</h3>
+        <p class="dossier-desc">Profil Facebook usurpant un vendeur connu de Tié-Tié. Plusieurs victimes ont payé sans jamais recevoir de téléphone.</p>
+        <div class="dossier-meta">
+          <span>📍 Tié-Tié</span>
+          <span>📱 Facebook</span>
+          <span>🔗 fb.com/vendeur-pnr-officiel</span>
+        </div>
+        <div class="dossier-actions">
+          <button class="btn-voir" onclick="ouvrirDossier(2)">Voir le dossier →</button>
+          <select class="select-statut" onchange="changerStatut(this, 2)">
+            <option value="nouveau" selected>🔴 Nouveau</option>
+            <option value="encours">🔵 En cours</option>
+            <option value="cloture">🟢 Clôturé</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dossier-carte" data-statut="encours" data-texte="lien phishing mpaka whatsapp 06 712 88 90">
+        <div class="dossier-entete">
+          <span class="badge-statut bleu">🔵 En cours</span>
+          <span class="badge-type orange2">🎣 Phishing</span>
+          <span class="dossier-date">04/06/2026</span>
+          <button class="btn-drapeau actif" onclick="toggleDrapeau(this)" title="Marquer urgent">🚩</button>
+        </div>
+        <h3 class="dossier-titre">Lien de phishing reçu par WhatsApp à Mpaka</h3>
+        <p class="dossier-desc">Lien imitant le site MTN Congo demandant les identifiants Mobile Money. Lien : http://mtn-congo-offre.net</p>
+        <div class="dossier-meta">
+          <span>📍 Mpaka</span>
+          <span>📱 WhatsApp</span>
+          <span>📞 06 712 88 90</span>
+        </div>
+        <div class="dossier-actions">
+          <button class="btn-voir" onclick="ouvrirDossier(3)">Voir le dossier →</button>
+          <select class="select-statut" onchange="changerStatut(this, 3)">
+            <option value="nouveau">🔴 Nouveau</option>
+            <option value="encours" selected>🔵 En cours</option>
+            <option value="cloture">🟢 Clôturé</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dossier-carte" data-statut="encours" data-texte="lumumba depot fonds faux investissement 06 641 23 45">
+        <div class="dossier-entete">
+          <span class="badge-statut bleu">🔵 En cours</span>
+          <span class="badge-type rouge2">💸 Fraude financière</span>
+          <span class="dossier-date">03/06/2026</span>
+          <button class="btn-drapeau" onclick="toggleDrapeau(this)" title="Marquer urgent">🚩</button>
+        </div>
+        <h3 class="dossier-titre">Arnaque au dépôt de fonds — Lumumba</h3>
+        <p class="dossier-desc">Individu promettant des rendements de 200% en 48h sur des dépôts Mobile Money. A collecté plus de 500 000 FCFA auprès de 8 victimes.</p>
+        <div class="dossier-meta">
+          <span>📍 Lumumba</span>
+          <span>📱 WhatsApp</span>
+          <span>📞 06 641 23 45</span>
+        </div>
+        <div class="dossier-actions">
+          <button class="btn-voir" onclick="ouvrirDossier(4)">Voir le dossier →</button>
+          <select class="select-statut" onchange="changerStatut(this, 4)">
+            <option value="nouveau">🔴 Nouveau</option>
+            <option value="encours" selected>🔵 En cours</option>
+            <option value="cloture">🟢 Clôturé</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dossier-carte" data-statut="encours" data-texte="airtel money mongo-kamba loterie sms 05 523 11 78">
+        <div class="dossier-entete">
+          <span class="badge-statut bleu">🔵 En cours</span>
+          <span class="badge-type orange">📱 Mobile Money</span>
+          <span class="dossier-date">02/06/2026</span>
+          <button class="btn-drapeau" onclick="toggleDrapeau(this)" title="Marquer urgent">🚩</button>
+        </div>
+        <h3 class="dossier-titre">Faux gain de loterie Airtel — SMS — Mongo-Kamba</h3>
+        <p class="dossier-desc">SMS indiquant que la victime a gagné 300 000 FCFA à la loterie Airtel. Demande de frais de déblocage de 10 000 FCFA.</p>
+        <div class="dossier-meta">
+          <span>📍 Mongo-Kamba</span>
+          <span>📱 SMS</span>
+          <span>📞 05 523 11 78</span>
+        </div>
+        <div class="dossier-actions">
+          <button class="btn-voir" onclick="ouvrirDossier(5)">Voir le dossier →</button>
+          <select class="select-statut" onchange="changerStatut(this, 5)">
+            <option value="nouveau">🔴 Nouveau</option>
+            <option value="encours" selected>🔵 En cours</option>
+            <option value="cloture">🟢 Clôturé</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dossier-carte" data-statut="cloture" data-texte="centre-ville banque lcb phishing email">
+        <div class="dossier-entete">
+          <span class="badge-statut vert">🟢 Clôturé</span>
+          <span class="badge-type orange2">🎣 Phishing</span>
+          <span class="dossier-date">28/05/2026</span>
+          <button class="btn-drapeau" onclick="toggleDrapeau(this)" title="Marquer urgent">🚩</button>
+        </div>
+        <h3 class="dossier-titre">Faux email banque LCB — Centre-ville</h3>
+        <p class="dossier-desc">Email imitant la LCB demandant une mise à jour des coordonnées bancaires. Lien renvoyant vers un faux site de connexion.</p>
+        <div class="dossier-meta">
+          <span>📍 Centre-ville</span>
+          <span>📱 Email</span>
+          <span>🔗 lcb-congo-update.com</span>
+        </div>
+        <div class="dossier-actions">
+          <button class="btn-voir" onclick="ouvrirDossier(6)">Voir le dossier →</button>
+          <select class="select-statut" onchange="changerStatut(this, 6)">
+            <option value="nouveau">🔴 Nouveau</option>
+            <option value="encours">🔵 En cours</option>
+            <option value="cloture" selected>🟢 Clôturé</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dossier-carte" data-statut="nouveau" data-texte="vindoulou instagram faux emploi recrutement 06 890 44 12">
+        <div class="dossier-entete">
+          <span class="badge-statut rouge">🔴 Nouveau</span>
+          <span class="badge-type rouge2">💸 Fraude financière</span>
+          <span class="dossier-date">05/06/2026</span>
+          <button class="btn-drapeau" onclick="toggleDrapeau(this)" title="Marquer urgent">🚩</button>
+        </div>
+        <h3 class="dossier-titre">Fausse offre d'emploi sur Instagram — Vindoulou</h3>
+        <p class="dossier-desc">Compte Instagram proposant des emplois bien rémunérés à l'étranger contre paiement de frais de dossier de 25 000 FCFA.</p>
+        <div class="dossier-meta">
+          <span>📍 Vindoulou</span>
+          <span>📱 Instagram</span>
+          <span>📞 06 890 44 12</span>
+        </div>
+        <div class="dossier-actions">
+          <button class="btn-voir" onclick="ouvrirDossier(7)">Voir le dossier →</button>
+          <select class="select-statut" onchange="changerStatut(this, 7)">
+            <option value="nouveau" selected>🔴 Nouveau</option>
+            <option value="encours">🔵 En cours</option>
+            <option value="cloture">🟢 Clôturé</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dossier-carte" data-statut="nouveau" data-texte="fond tié-tié whatsapp usurpation police nationale 06 641 23 45">
+        <div class="dossier-entete">
+          <span class="badge-statut rouge">🔴 Nouveau</span>
+          <span class="badge-type gris">👤 Usurpation</span>
+          <span class="dossier-date">05/06/2026</span>
+          <button class="btn-drapeau" onclick="toggleDrapeau(this)" title="Marquer urgent">🚩</button>
+        </div>
+        <h3 class="dossier-titre">Usurpation Police Nationale — Fond Tié-Tié</h3>
+        <p class="dossier-desc">Individu se faisant passer pour un policier par WhatsApp, menaçant la victime d'arrestation sauf paiement de 50 000 FCFA.</p>
+        <div class="dossier-meta">
+          <span>📍 Fond Tié-Tié</span>
+          <span>📱 WhatsApp</span>
+          <span>📞 06 641 23 45</span>
+        </div>
+        <div class="dossier-actions">
+          <button class="btn-voir" onclick="ouvrirDossier(8)">Voir le dossier →</button>
+          <select class="select-statut" onchange="changerStatut(this, 8)">
+            <option value="nouveau" selected>🔴 Nouveau</option>
+            <option value="encours">🔵 En cours</option>
+            <option value="cloture">🟢 Clôturé</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="modal-detail">
+      <div class="modal-entete">
+        <h3 id="modal-titre">Détail du dossier</h3>
+        <button class="btn-fermer-modal" onclick="fermerModal()">✕</button>
+      </div>
+      <div id="modal-contenu">
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    var dossiers = {
+      1: { titre: "Arnaque MTN Mobile Money — gain fictif", quartier: "Mpaka", plateforme: "WhatsApp", numero: "06 641 23 45", lien: "Aucun", type: "Mobile Money", statut: "Nouveau", date: "05/06/2026", description: "Victime contactée par WhatsApp, on lui annonce un gain de 150 000 FCFA à débloquer contre un virement de 5 000 FCFA. Le virement a été effectué, aucun gain reçu." },
+      2: { titre: "Faux profil Facebook vendant des téléphones", quartier: "Tié-Tié", plateforme: "Facebook", numero: "Inconnu", lien: "fb.com/vendeur-pnr-officiel", type: "Usurpation", statut: "Nouveau", date: "05/06/2026", description: "Profil Facebook usurpant un vendeur connu de Tié-Tié. Plusieurs victimes ont payé sans recevoir de téléphone. 3 signalements liés à ce même profil." },
+      3: { titre: "Lien de phishing WhatsApp à Mpaka", quartier: "Mpaka", plateforme: "WhatsApp", numero: "06 712 88 90", lien: "http://mtn-congo-offre.net", type: "Phishing", statut: "En cours", date: "04/06/2026", description: "Lien imitant le site MTN Congo demandant les identifiants Mobile Money. Le lien a été signalé par 4 victimes différentes dans le quartier Mpaka." },
+      4: { titre: "Arnaque au dépôt de fonds — Lumumba", quartier: "Lumumba", plateforme: "WhatsApp", numero: "06 641 23 45", lien: "Aucun", type: "Fraude financière", statut: "En cours", date: "03/06/2026", description: "Individu promettant 200% de rendement en 48h. A collecté plus de 500 000 FCFA auprès de 8 victimes identifiées. ATTENTION : même numéro que dossier #1." },
+      5: { titre: "Faux gain loterie Airtel — Mongo-Kamba", quartier: "Mongo-Kamba", plateforme: "SMS", numero: "05 523 11 78", lien: "Aucun", type: "Mobile Money", statut: "En cours", date: "02/06/2026", description: "SMS indiquant un gain de 300 000 FCFA à la loterie Airtel. Frais de déblocage demandés : 10 000 FCFA. Schéma similaire à 3 autres dossiers." },
+      6: { titre: "Faux email banque LCB — Centre-ville", quartier: "Centre-ville", plateforme: "Email", numero: "Inconnu", lien: "lcb-congo-update.com", type: "Phishing", statut: "Clôturé", date: "28/05/2026", description: "Email imitant la LCB. Transmis au parquet le 02/06/2026. Site frauduleux signalé et bloqué par les autorités." },
+      7: { titre: "Fausse offre d'emploi Instagram — Vindoulou", quartier: "Vindoulou", plateforme: "Instagram", numero: "06 890 44 12", lien: "Aucun", type: "Fraude financière", statut: "Nouveau", date: "05/06/2026", description: "Compte Instagram proposant des emplois bien rémunérés à l'étranger contre 25 000 FCFA de frais de dossier. 5 victimes identifiées." },
+      8: { titre: "Usurpation Police Nationale — Fond Tié-Tié", quartier: "Fond Tié-Tié", plateforme: "WhatsApp", numero: "06 641 23 45", lien: "Aucun", type: "Usurpation", statut: "Nouveau", date: "05/06/2026", description: "Individu se faisant passer pour un policier. Menace d'arrestation contre paiement. ATTENTION : même numéro que dossiers #1 et #4 — suspect en série." }
+    };
+
+    function ouvrirDossier(id) {
+      var d = dossiers[id];
+      var alerte = '';
+      var autresDossiers = [];
+      for (var key in dossiers) {
+        if (key != id && dossiers[key].numero === d.numero && d.numero !== 'Inconnu') {
+          autresDossiers.push('#' + key);
+        }
+      }
+
+      if (autresDossiers.length > 0) {
+        alerte = '<div class="alerte-correlation">⚠️ CORRÉLATION DÉTECTÉE — Le numéro <strong>' + d.numero + '</strong> apparaît aussi dans les dossiers : <strong>' + autresDossiers.join(', ') + '</strong>. Probablement le même escroc.</div>';
+      }
+
+      document.getElementById('modal-titre').textContent = d.titre;
+      document.getElementById('modal-contenu').innerHTML =
+        alerte +
+        '<div class="detail-grille">' +
+          '<div class="detail-item"><span class="detail-label">Statut</span><span class="detail-valeur">' + d.statut + '</span></div>' +
+          '<div class="detail-item"><span class="detail-label">Type</span><span class="detail-valeur">' + d.type + '</span></div>' +
+          '<div class="detail-item"><span class="detail-label">Quartier</span><span class="detail-valeur">' + d.quartier + '</span></div>' +
+          '<div class="detail-item"><span class="detail-label">Plateforme</span><span class="detail-valeur">' + d.plateforme + '</span></div>' +
+          '<div class="detail-item"><span class="detail-label">Numéro suspect</span><span class="detail-valeur detail-numero">' + d.numero + '</span></div>' +
+          '<div class="detail-item"><span class="detail-label">Lien suspect</span><span class="detail-valeur">' + d.lien + '</span></div>' +
+          '<div class="detail-item"><span class="detail-label">Date</span><span class="detail-valeur">' + d.date + '</span></div>' +
+        '</div>' +
+        '<div class="detail-description"><strong>Description complète :</strong><p>' + d.description + '</p></div>' +
+        '<div class="detail-actions">' +
+          '<button class="btn-assigner">Assigner à un enquêteur</button>' +
+          '<button class="btn-cloturer">Marquer clôturé</button>' +
+        '</div>';
+
+      document.getElementById('overlay').classList.add('active');
+    }
+
+    function fermerModal() {
+      document.getElementById('overlay').classList.remove('active');
+    }
+
+    function filtrerStatut(statut, bouton) {
+      // Mettre à jour le bouton actif
+      document.querySelectorAll('.filtre-btn').forEach(function(b) {
+        b.classList.remove('actif');
+      });
+      bouton.classList.add('actif');
+
+      var cartes = document.querySelectorAll('.dossier-carte');
+      var nb = 0;
+      cartes.forEach(function(carte) {
+        if (statut === 'tous' || carte.dataset.statut === statut) {
+          carte.style.display = 'block';
+          nb++;
+        } else {
+          carte.style.display = 'none';
+        }
+      });
+
+      document.getElementById('nb-resultats').textContent = nb + ' dossier' + (nb > 1 ? 's' : '');
+    }
+
+    function filtrerDossiers() {
+      var texte = document.getElementById('recherche').value.toLowerCase();
+      var cartes = document.querySelectorAll('.dossier-carte');
+      var nb = 0;
+
+      cartes.forEach(function(carte) {
+        var contenu = carte.dataset.texte + ' ' + carte.textContent.toLowerCase();
+        if (contenu.includes(texte)) {
+          carte.style.display = 'block';
+          nb++;
+        } else {
+          carte.style.display = 'none';
+        }
+      });
+
+      document.getElementById('nb-resultats').textContent = nb + ' dossier' + (nb > 1 ? 's' : '');
+    }
+
+    function toggleDrapeau(btn) {
+      btn.classList.toggle('actif');
+      // On sauvegarde dans localStorage pour mémoriser entre sessions
+      var urgents = JSON.parse(localStorage.getItem('urgents') || '[]');
+      var carte = btn.closest('.dossier-carte');
+      var titre = carte.querySelector('.dossier-titre').textContent;
+
+      if (btn.classList.contains('actif')) {
+        urgents.push(titre);
+      } else {
+        urgents = urgents.filter(function(t) { return t !== titre; });
+      }
+      localStorage.setItem('urgents', JSON.stringify(urgents));
+    }
+
+    function changerStatut(select, id) {
+      var carte = select.closest('.dossier-carte');
+      var badge = carte.querySelector('.badge-statut');
+      var nouveau = select.value;
+
+      carte.dataset.statut = nouveau;
+
+      if (nouveau === 'nouveau') {
+        badge.className = 'badge-statut rouge';
+        badge.textContent = '🔴 Nouveau';
+      } else if (nouveau === 'encours') {
+        badge.className = 'badge-statut bleu';
+        badge.textContent = '🔵 En cours';
+      } else {
+        badge.className = 'badge-statut vert';
+        badge.textContent = '🟢 Clôturé';
+      }
+
+      var labels = { nouveau: 'Nouveau', encours: 'En cours', cloture: 'Clôturé' };
+      dossiers[id].statut = labels[nouveau];
+    }
+
+  </script>
+
+</body>
+</html>
