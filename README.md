@@ -32,3 +32,5 @@ cybershield/
 ## Auteur
 
 Projet académique — Brigade cybercriminalité Pointe-Noire
+## Déploiement
+- Frontend : https://stevenslikibi.github.io/Cybershield_project/
