@@ -4,7 +4,7 @@ const multer = require('multer');
 const path = require('path');
 require('dotenv').config();
 
-const apiRoutes = require('./api');
+const apiRoutes = require('./routes/api');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
