@@ -109,7 +109,7 @@
       var formData = new FormData(this);
       formData.set('id_workspace', 1);
 
-      fetch('http://localhost:3000/api/signalements', {
+      fetch('https://cybershieldproject-production.up.railway.app/api/signalements', {
         method: 'POST',
         body: formData
       })
