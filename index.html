@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberShield - Signaler une arnaque</title>
+ <link rel="stylesheet" href="Frontend/style.css">
+</head>
+<body>
+
+  <header>
+    <h1>🛡️ CyberShield</h1>
+    <p>Brigade Cybercriminalité — Pointe-Noire</p>
+  </header>
+
+  <main>
+    <h2>Signaler une cyber-arnaque</h2>
+
+    <form id="form-plainte">
+
+      <label>Type d'arnaque</label>
+      <select name="type_arnaque" required>
+        <option value="">-- Choisir --</option>
+        <option value="phishing">Phishing</option>
+        <option value="fraude_financiere">Fraude financière</option>
+        <option value="usurpation">Usurpation d'identité</option>
+        <option value="mobile_money">Mobile Money</option>
+        <option value="autre">Autre</option>
+      </select>
+
+      <label>Description de l'arnaque</label>
+      <textarea name="description" placeholder="Décrivez ce qui s'est passé..." required></textarea>
+
+      <label>Quartier</label>
+      <select name="quartier" required>
+        <option value="">-- Choisir --</option>
+        <option>Mpaka</option>
+        <option>Lumumba</option>
+        <option>Tié-Tié</option>
+        <option>Mongo-Kamba</option>
+        <option>Mvou-Mvou</option>
+        <option>Centre-ville</option>
+        <option>Vindoulou</option>
+        <option>Fond Tié-Tié</option>
+        <option>Autre</option>
+      </select>
+
+      <label>Plateforme utilisée</label>
+      <select name="plateforme">
+        <option value="">-- Choisir --</option>
+        <option>WhatsApp</option>
+        <option>Facebook</option>
+        <option>Instagram</option>
+        <option>SMS</option>
+        <option>Email</option>
+        <option>Mobile Money</option>
+        <option>Autre</option>
+      </select>
+
+      <label>Numéro de téléphone de l'escroc</label>
+      <input type="tel" name="numero_escroc" placeholder="06 XXX XX XX">
+
+      <label>Lien suspect</label>
+      <input type="text" name="lien_suspect" placeholder="Copiez le lien ici">
+
+      <label>Captures d'écran (JPEG ou PNG)</label>
+      <input type="file" name="preuves" accept=".jpg,.jpeg,.png" multiple>
+
+      <label>
+        <input type="checkbox" name="est_anonyme" value="true" checked>
+        Déposer anonymement
+      </label>
+
+      <div id="champs-identite" style="display:none">
+        <label>Nom complet</label>
+        <input type="text" name="nom_victime" placeholder="Votre nom">
+
+        <label>Téléphone</label>
+        <input type="tel" name="telephone_victime" placeholder="06 XXX XX XX">
+
+        <label>Email</label>
+        <input type="email" name="email_victime" placeholder="votre@email.com">
+      </div>
+
+      <p id="erreur" style="color:red; display:none">Une erreur est survenue. Réessayez.</p>
+
+      <button type="submit">Envoyer le signalement</button>
+
+    </form>
+
+    <div id="succes" style="display:none">
+      <h3>✅ Signalement envoyé !</h3>
+      <p>Votre code de suivi :</p>
+      <p id="code"></p>
+      <button onclick="fermer()">Fermer</button>
+    </div>
+
+  </main>
+
+  <script>
+    document.querySelector('input[name="est_anonyme"]').addEventListener('change', function() {
+      var champs = document.getElementById('champs-identite');
+      champs.style.display = this.checked ? 'none' : 'block';
+    });
+
+    document.getElementById('form-plainte').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var formData = new FormData(this);
+      formData.set('id_workspace', 1);
+
+      fetch('http://localhost:3000/api/signalements', {
+        method: 'POST',
+        body: formData
+      })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        document.getElementById('code').textContent = data.code_suivi;
+        document.getElementById('succes').style.display = 'block';
+        document.getElementById('erreur').style.display = 'none';
+      })
+      .catch(function() {
+        document.getElementById('erreur').style.display = 'block';
+      });
+    });
+
+    function fermer() {
+      document.getElementById('succes').style.display = 'none';
+      document.getElementById('form-plainte').reset();
+      document.getElementById('champs-identite').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
