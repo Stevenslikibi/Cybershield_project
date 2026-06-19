@@ -111,7 +111,7 @@
     }
 
     function changerStatut(select, id) {
-      fetch('http://localhost:3000/api/signalements/' + id + '/statut', {
+     fetch('https://cybershieldproject-production.up.railway.app/api/signalements/' + id + '/statut', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ statut: select.value })
