@@ -110,9 +110,20 @@
       formData.set('id_workspace', 1);
 
       fetch('https://cybershieldproject-production.up.railway.app/api/signalements', {
-        method: 'POST',
-        body: formData
-      })
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    type_arnaque: formData.get('type_arnaque'),
+    description: formData.get('description'),
+    quartier: formData.get('quartier'),
+    plateforme: formData.get('plateforme'),
+    est_anonyme: formData.get('est_anonyme') === 'true',
+    nom_victime: formData.get('nom_victime'),
+    telephone_victime: formData.get('telephone_victime'),
+    email_victime: formData.get('email_victime'),
+    id_workspace: 1
+  })
+})
       .then(function(response) {
         return response.json();
       })
