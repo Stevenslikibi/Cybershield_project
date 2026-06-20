@@ -90,7 +90,7 @@
             '<span class="badge ' + couleurStatut + '">' + texteStatut + '</span>' +
             '<span class="badge orange">' + d.type_arnaque + '</span>' +
           '</div>' +
-          '<h3>' + d.description.substring(0, 60) + '...</h3>' +
+          '<h3>' + (d.description ? d.description.substring(0, 60) : 'Sans description') + '...</h3>' +
           '<div class="meta">📍 ' + d.quartier + ' &nbsp; 📅 ' + new Date(d.date_depot).toLocaleDateString() + '</div>' +
           '<select onchange="changerStatut(this, ' + d.id_signalement + ')">' +
             '<option value="nouveau"' + (d.statut === 'nouveau' ? ' selected' : '') + '>🔴 Nouveau</option>' +
