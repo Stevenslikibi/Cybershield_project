@@ -43,7 +43,7 @@
     var tousLesDossiers = [];
 
     function chargerDossiers() {
-      fetch('https://cybershieldproject-production.up.railway.app/api/signalements/' + id + '/statut', {
+      fetch('https://cybershieldproject-production.up.railway.app/api/signalements')
       .then(function(response) {
         return response.json();
       })
