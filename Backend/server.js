@@ -91,7 +91,27 @@ app.get('/api/recherche', async (req, res) => {
     res.status(500).json({ erreur: err.message });
   }
 });
-
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, mot_de_passe } = req.body;
+    const result = await pool.query('SELECT * FROM enqueteurs WHERE email = $1', [email]);
+    if (result.rows.length === 0) {
+      return res.status(401).json({ erreur: 'Email ou mot de passe incorrect' });
+    }
+    const enqueteur = result.rows[0];
+    if (mot_de_passe !== enqueteur.mot_de_passe) {
+      return res.status(401).json({ erreur: 'Email ou mot de passe incorrect' });
+    }
+    const token = jwt.sign(
+      { id: enqueteur.id_enqueteur, email: enqueteur.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '8h' }
+    );
+    res.json({ token, enqueteur: { nom: enqueteur.nom, prenom: enqueteur.prenom, role: enqueteur.role } });
+  } catch (err) {
+    res.status(500).json({ erreur: err.message });
+  }
+});
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur le port ${PORT}`);
 });
