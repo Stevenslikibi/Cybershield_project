@@ -101,7 +101,7 @@ if (!token) {
             '<option value="encours"' + (d.statut === 'encours' ? ' selected' : '') + '>🔵 En cours</option>' +
             '<option value="cloture"' + (d.statut === 'cloture' ? ' selected' : '') + '>🟢 Clôturé</option>' +
           '</select>' +
-'<button onclick="toggleDrapeau(' + d.id_signalement + ')" style="background:none;border:none;font-size:18px;cursor:pointer;">' + (JSON.parse(localStorage.getItem("drapeaux") || "[]").includes(d.id_signalement) ? "🚩" : "⚑") + '</button>';
+'<button onclick="toggleDrapeau(' + d.id_signalement + ')" style="background:none;border:none;font-size:18px;cursor:pointer;">' + (JSON.parse(localStorage.getItem("drapeaux") || "[]").includes(d.id_signalement) ? "🚩" : "🏴") + '</button>';
 
         liste.appendChild(carte);
       });
