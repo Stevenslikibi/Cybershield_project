@@ -34,7 +34,7 @@
       var email = this.email.value;
       var mot_de_passe = this.mot_de_passe.value;
 
-      fetch('http://localhost:3000/api/login', {
+      fetch('https://cybershieldproject-production.up.railway.app/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, mot_de_passe: mot_de_passe })
