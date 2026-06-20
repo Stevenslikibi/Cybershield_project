@@ -87,8 +87,8 @@
 
         carte.innerHTML =
           '<div class="dossier-header">' +
-            '<span class="badge ' + couleurStatut + '">' + texteStatut + '</span>' +
-            '<span class="badge orange">' + d.type_arnaque + '</span>' +
+           '<span class="badge-statut ' + couleurStatut + '">' + texteStatut + '</span>' +
+           ' <span class="badge-type orange">' + d.type_arnaque + '</span>' +
           '</div>' +
           '<h3>' + (d.description ? d.description.substring(0, 60) : 'Sans description') + '...</h3>' +
           '<div class="meta">📍 ' + d.quartier + ' &nbsp; 📅 ' + new Date(d.date_depot).toLocaleDateString() + '</div>' +
