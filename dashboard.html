@@ -100,7 +100,8 @@ if (!token) {
             '<option value="nouveau"' + (d.statut === 'nouveau' ? ' selected' : '') + '>🔴 Nouveau</option>' +
             '<option value="encours"' + (d.statut === 'encours' ? ' selected' : '') + '>🔵 En cours</option>' +
             '<option value="cloture"' + (d.statut === 'cloture' ? ' selected' : '') + '>🟢 Clôturé</option>' +
-          '</select>';
+          '</select>' +
+'<button onclick="toggleDrapeau(' + d.id_signalement + ')" style="background:none;border:none;font-size:18px;cursor:pointer;">' + (JSON.parse(localStorage.getItem("drapeaux") || "[]").includes(d.id_signalement) ? "🚩" : "⚑") + '</button>';
 
         liste.appendChild(carte);
       });
@@ -127,8 +128,17 @@ if (!token) {
         chargerDossiers();
       });
     }
-
-    chargerDossiers();
+function toggleDrapeau(id) {
+  var drapeaux = JSON.parse(localStorage.getItem('drapeaux') || '[]');
+  var index = drapeaux.indexOf(id);
+  if (index === -1) {
+    drapeaux.push(id);
+  } else {
+    drapeaux.splice(index, 1);
+  }
+  localStorage.setItem('drapeaux', JSON.stringify(drapeaux));
+  chargerDossiers();
+}
   </script>
 
 </body>
