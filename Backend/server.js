@@ -50,12 +50,12 @@ app.get('/api/signalements', async (req, res) => {
 
 app.post('/api/signalements', async (req, res) => {
   try {
-    const { type_arnaque, description, quartier, plateforme, est_anonyme, nom_victime, telephone_victime, email_victime, id_workspace } = req.body;
+    const { type_arnaque, description, quartier, plateforme, est_anonyme, nom_victime, telephone_victime, email_victime, id_workspace, numero_escroc } = req.body;
     const code_suivi = 'CS-' + Math.random().toString(36).substring(2, 10).toUpperCase();
     const result = await pool.query(
-      `INSERT INTO signalements (code_suivi, type_arnaque, description, quartier, plateforme, est_anonyme, nom_victime, telephone_victime, email_victime, id_workspace)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
-      [code_suivi, type_arnaque, description, quartier, plateforme, est_anonyme, nom_victime, telephone_victime, email_victime, id_workspace]
+      `INSERT INTO signalements (code_suivi, type_arnaque, description, quartier, plateforme, est_anonyme, nom_victime, telephone_victime, email_victime, id_workspace, numero_escroc)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
+      [code_suivi, type_arnaque, description, quartier, plateforme, est_anonyme, nom_victime, telephone_victime, email_victime, id_workspace, numero_escroc]
     );
     res.status(201).json({ message: 'Signalement enregistré', code_suivi, data: result.rows[0] });
   } catch (err) {
