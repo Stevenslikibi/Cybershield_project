@@ -107,13 +107,22 @@ if (!token) {
       });
     }
 
-    function rechercher() {
-      var texte = document.getElementById('recherche').value.toLowerCase();
-      var filtres = tousLesDossiers.filter(function(d) {
-        return (d.quartier + ' ' + d.type_arnaque + ' ' + d.description).toLowerCase().includes(texte);
-      });
-      afficherDossiers(filtres);
-    }
+   function rechercher() {
+  var texte = document.getElementById('recherche').value;
+  if (texte.length < 2) {
+    afficherDossiers(tousLesDossiers);
+    return;
+  }
+  fetch('https://cybershieldproject-production.up.railway.app/api/recherche?q=' + encodeURIComponent(texte))
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    afficherDossiers(data);
+    mettreAJourStats(data);
+  })
+  .catch(function() {
+    afficherDossiers(tousLesDossiers);
+  });
+}
 
     function changerStatut(select, id) {
      fetch('https://cybershieldproject-production.up.railway.app/api/signalements/' + id + '/statut', {
