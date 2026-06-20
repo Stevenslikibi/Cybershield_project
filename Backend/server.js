@@ -82,7 +82,7 @@ app.get('/api/recherche', async (req, res) => {
     const result = await pool.query(
       `SELECT s.* FROM signalements s
        LEFT JOIN preuves p ON s.id_signalement = p.id_signalement
-       WHERE p.valeur ILIKE $1 OR s.description ILIKE $1 OR s.quartier ILIKE $1
+       WHERE p.valeur ILIKE $1 OR s.description ILIKE $1 OR s.quartier ILIKE $1 OR s.telephone_victime ILIKE $1
        GROUP BY s.id_signalement`,
       [`%${q}%`]
     );
