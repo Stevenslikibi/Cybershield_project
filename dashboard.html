@@ -11,6 +11,7 @@
   <header>
     <h1>🛡️ CyberShield</h1>
     <span>Espace Enquêteurs</span>
+    <button onclick="deconnecter()" class="btn-deconnexion">🚪 Déconnexion</button>
   </header>
 
   <main>
@@ -147,6 +148,11 @@ function toggleDrapeau(id) {
   }
   localStorage.setItem('drapeaux', JSON.stringify(drapeaux));
   chargerDossiers();
+}
+    function deconnecter() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('enqueteur');
+  window.location.href = 'login.html';
 }
     chargerDossiers();
   </script>
